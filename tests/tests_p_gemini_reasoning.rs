@@ -4,8 +4,8 @@ use crate::support::{extract_stream_end, Result};
 use genai::chat::{ChatMessage, ChatOptions, ChatRequest};
 use genai::Client;
 
-// "gemini-2.5-flash-preview-04-17", "gemini-2.5-pro-exp-03-25"
-const MODEL: &str = "gemini-2.5-flash-preview-04-17";
+// "gemini-2.5-flash-preview-04-17", "gemini-2.5-pro-preview-05-06"
+const MODEL: &str = "gemini-2.5-flash-preview-04-17"; // can add "-medium" .. suffix
 
 // NOTE: For now just single test to make sure reasonning token get captured.
 

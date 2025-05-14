@@ -1,5 +1,23 @@
 `.` minor | `-` Fix | `+` Addition | `^` improvement | `!` Change | `*` Refactor
 
+## 2025-05-10 - [v0.3.1](https://github.com/jeremychone/rust-genai/compare/v0.3.0...v0.3.1)
+
+- `^` gemini - usage - add capture/normalize cached tokens usage (need futher validation, but should work)
+- `-` xai - fix streaming usage capture (now same as openai), and list models
+
+## 2025-05-08 - [v0.3.0](https://github.com/jeremychone/rust-genai/compare/v0.2.4...v0.3.0)
+
+- `+` gemini - reasoning effort - thinking budget - Added `ReasoningEffort::Budget(num)` variant. 
+  -  Minor API Update - Now `ReasoningEffort` has a new vairant `Budget`
+- `+` gemini - reasoning effort - added `-zero`, `-low`, `-medium`, and `-high` suffixes, and also mapped the other variants to the correct budget when present.
+- `^` ModelIden - added `from_name(new_name`) and `from_option_name(Option name)`
+- `!` ModelIden - Minor API Change - deprecation of `with_name_or_clone` (use `from_optional_name`)
+
+## 2025-05-07 - [v0.2.4](https://github.com/jeremychone/rust-genai/compare/v0.2.3...v0.2.4)
+
+- `^` openai usage - (change) Now details properties None when 0, and usage.compact_details() to set details to None when empty.
+- `.` gemini - remove wrongly assign accepted_prediction_tokens
+
 ## 2025-04-26 - [v0.2.3](https://github.com/jeremychone/rust-genai/compare/v0.2.2...v0.2.3)
 
 - `-` gemini - fix computation of completion_tokens/reasoning_tokens to match OpenAI API way

@@ -13,6 +13,7 @@ use reqwest::RequestBuilder;
 use reqwest_eventsource::EventSource;
 use serde::Deserialize;
 use serde_json::{Value, json};
+use tracing::error;
 use value_ext::JsonValueExt;
 
 pub struct OpenAIAdapter;
@@ -23,6 +24,7 @@ const MODELS: &[&str] = &[
 	"gpt-4.1",
 	"gpt-4.1-mini",
 	"gpt-4.1-nano",
+	"o4-mini",
 	"gpt-4o",
 	"gpt-4o-mini",
 	"o3-mini",
@@ -69,7 +71,7 @@ impl Adapter for OpenAIAdapter {
 
 		// -- Capture the provider_model_iden
 		let provider_model_name: Option<String> = body.x_remove("model").ok();
-		let provider_model_iden = model_iden.with_name_or_clone(provider_model_name);
+		let provider_model_iden = model_iden.from_optional_name(provider_model_name);
 
 		// -- Capture the usage
 		let usage = body.x_take("usage").map(OpenAIAdapter::into_usage).unwrap_or_default();
@@ -193,7 +195,9 @@ impl OpenAIAdapter {
 
 		// -- Set reasoning effort
 		if let Some(reasoning_effort) = reasoning_effort {
-			payload.x_insert("reasoning_effort", reasoning_effort.to_lower_str())?;
+			if let Some(keyword) = reasoning_effort.as_keyword() {
+				payload.x_insert("reasoning_effort", keyword)?;
+			}
 		}
 
 		// -- Tools
@@ -265,8 +269,13 @@ impl OpenAIAdapter {
 	#[allow(deprecated)]
 	pub(super) fn into_usage(usage_value: Value) -> Usage {
 		// NOTE: here we make sure we do not fail since we do not want to break a response because usage parsing fail
-		// TODO: Should have some tracing.
-		let usage: Usage = serde_json::from_value(usage_value).unwrap_or_default();
+		let usage = serde_json::from_value(usage_value).map_err(|err| {
+			error!("Fail to deserilaize uage. Cause: {err}");
+			err
+		});
+		let mut usage: Usage = usage.unwrap_or_default();
+		// Will set details to None if no values
+		usage.compact_details();
 		usage
 	}
 

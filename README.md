@@ -16,23 +16,36 @@ Also, allow custom URL with `ServiceTargetResolver` (see [examples/c06-target-re
 
 Provides a common and ergonomic single API to many generative AI providers, such as Anthropic, OpenAI, Gemini, xAI, Ollama, Groq, and more.
 
-Check out [devai.run](https://devai.run), the **Iterate to Automate** command-line application that leverages **genai** for multi-AI capabilities.
+## v0.3.0 - Released 2025-05-08
 
-## v0.2.0 has been Released 2025-04-16
+What's new: 
+
+- Gemini Thinking Budget support `ReasoningEffort::Budget(num)`
+- Gemini`-zero`, `-low`, `-medium`, and `-high` suffixes that set the corresponding budget (`0`, `1k`, `8k`, `24k`)
+- When set, `ReasoningEffort::Low, ...` will map to their corresponding budget `1k`, `8k`, `24k`
+
+**API-CHANGES** (minors)
+	- `ReasoningEffort` has now and additional `Budget(num)` variant
+	- `ModelIden::with_name_or_clone` has been deprecated for `ModelInden::from_option_name(Option<String>)`
+
+Check [CHANGELOG](CHANGELOG.md) for more info	
+	
+## v0.2.0 - Released 2025-04-16
 
 Here are some of the api change. Check [CHANGELOG](CHANGELOG.md) for more info
 
-- **API-CHANGES**
-  - `chat::MetaUsage` has been renamed to `chat::Usage`
-  - `Usage.input_tokens` to `Usage.prompt_tokens` 
-  - `Usage.prompt_tokens` to `Usage.completion_tokens`
-  - `ChatMessage` now takes an additional property, `options: MessageOptions` with and optional `cache_control` (`CacheControl::Ephemeral`)
-  - Now `client.resolve_service_target(model)` is ASYNC, so, `client.resolve_service_target(model).await`
-	- Note: At this point, we still cannot `AsyncFn...` traits as its support is not complete in stable (as of rust 1.86), but Auth Resolver can be async now with some Pin/Box/Future type anotation. 
+**API-CHANGES**
+- `chat::MetaUsage` has been renamed to `chat::Usage`
+- `Usage.input_tokens` to `Usage.prompt_tokens` 
+- `Usage.prompt_tokens` to `Usage.completion_tokens`
+- `ChatMessage` now takes an additional property, `options: MessageOptions` with and optional `cache_control` (`CacheControl::Ephemeral`)
+- Now `client.resolve_service_target(model)` is ASYNC, so, `client.resolve_service_target(model).await`
+- Note: At this point, we still cannot `AsyncFn...` traits as its support is not complete in stable (as of rust 1.86), but Auth   Resolver can be async now with some Pin/Box/Future type anotation. 
 	
 
 ## Thanks
 
+- [@una-spirito](https://github.com/luna-spirito) for gemini `ReasoningEffort::Budget` support. 
 - [@jBernavaPrah](https://github.com/jBernavaPrah) For adding tracing (it was long overdue). [PR #45](https://github.com/jeremychone/rust-genai/pull/45)
 - [@GustavoWidman](https://github.com/GustavoWidman) for the intial gemini tool/function support!! [PR #41](https://github.com/jeremychone/rust-genai/pull/41)
 - [@AdamStrojek](https://github.com/AdamStrojek) for initial image support [PR #36](https://github.com/jeremychone/rust-genai/pull/36)
@@ -42,6 +55,11 @@ Here are some of the api change. Check [CHANGELOG](CHANGELOG.md) for more info
 - [@giangndm](https://github.com/giangndm) for make stream is send [PR #10](https://github.com/jeremychone/rust-genai/pull/10)
 - [@stargazing-dino](https://github.com/stargazing-dino) for [PR #2](https://github.com/jeremychone/rust-genai/pull/2) - implement Groq completions
 
+## Usage examples
+
+- Check out [AIPACK](https://aipack.ai), which wraps this **genai** library into an agentic runtime to run, build, and share AI Agent Packs. See [`pro@coder`](https://www.youtube.com/watch?v=zL1BzPVM8-Y&list=PL7r-PXl6ZPcB2zN0XHsYIDaD5yW8I40AE) for a simple example of how I use AI PACK/genai for production coding.
+
+> Note: Feel free to send me a short description and link to your application or library using genai.
 
 ## Key Features
 
