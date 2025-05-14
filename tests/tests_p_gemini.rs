@@ -8,7 +8,7 @@ type Result<T> = core::result::Result<T, Box<dyn std::error::Error>>; // For tes
 
 // "gemini-2.0-flash", "gemini-2.0-flash-lite" (somehow function calling work with -lite)
 // "gemini-2.5-flash-preview-04-17" "gemini-2.5-pro-preview-05-06"
-const MODEL: &str = "gemini-2.5-flash-preview-04-17-zero";
+const MODEL: &str = "gemini-2.5-flash-preview-04-17";
 
 // region:    --- Chat
 
